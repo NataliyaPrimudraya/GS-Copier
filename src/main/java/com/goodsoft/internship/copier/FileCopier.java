@@ -2,6 +2,7 @@ package com.goodsoft.internship.copier;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 
 public class FileCopier implements Copier {
     @Override
@@ -9,9 +10,9 @@ public class FileCopier implements Copier {
         File sourceFile = new File(sourcePath);
         File destinationFile = new File(destinationPath);
 
-        try {
+        try (InputStream in = Files.newInputStream(sourceFile.toPath())) {
 
-            Files.copy(sourceFile.toPath(), destinationFile.toPath());
+            Files.copy(in, destinationFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 
         } catch (FileNotFoundException e) {
             System.out.println("Файл \"" + sourcePath + "\" не найден");

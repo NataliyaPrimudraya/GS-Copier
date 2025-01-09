@@ -8,8 +8,10 @@ public class NIOCopier implements Copier {
     @Override
     public void copyFile(String sourcePath, String destinationPath) {
 
-        try(FileChannel source = new FileInputStream(sourcePath).getChannel();
-            FileChannel destination = new FileOutputStream(destinationPath).getChannel()) {
+        try(FileInputStream fis = new FileInputStream(sourcePath);
+            FileOutputStream fos = new FileOutputStream(destinationPath);
+            FileChannel source = fis.getChannel();
+            FileChannel destination = fos.getChannel()) {
 
             destination.transferFrom(source, 0, source.size());
 
